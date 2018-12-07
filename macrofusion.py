@@ -112,7 +112,7 @@ settings = {
     "fuse_settings"             :
     {
         # default compression setting (for JPG/TIFF) 
-        "compression"           : ["--compression",             "100"],
+        "compression"           : ["--compression",             "90"],
         # weight given to well-exposed pixels
         "exposure-weight"       : ["--exposure-weight",         1.0],
         # weight given to highly-saturated pixels
@@ -120,9 +120,9 @@ settings = {
         # weight given to pixels in high-contrast neighborhoods
         "contrast-weight"       : ["--contrast-weight",         0.0],
         # mean of Gaussian weighting function
-        "exposure-mu"           : ["--exposure-mu",             0.5],
+        "exposure-optimum"      : ["--exposure-optimum",        0.5],
         # standard deviation of Gaussian weighting function 
-        "exposure-sigma"        : ["--exposure-sigma",          0.2],
+        "exposure-width"        : ["--exposure-width",          0.2],
         # limit number of blending LEVELS to use (1 to 29)
         "levels"                : ["--levels",                  29],
         # average over all masks; this is the default
@@ -130,10 +130,10 @@ settings = {
         # force hard blend masks and no averaging on finest scale
         "hard-mask"             : ["--hard-mask",               False],
         # apply gray-scale PROJECTOR in exposure or contrast weighing, where PROJECTOR is one of
-        # 0: "anti-value", 1: "average", 2: "l-star", 3: "lightness", 4: "luminance", 5: "pl-star", 6: "value"
+        # 0:"anti-value",  1:"average",  2:"l-star",  3:"lightness",  4:"luminance",  5:"pl-star",  6:"value"
         "gray-projector"        : ["--gray-projector",          1],
         # set window SIZE for local-contrast analysis     
-        "contrast-window-size"  : ["--contrast-window-size",    3],
+        "contrast-window-size"  : ["--contrast-window-size",    5],
         # minimum CURVATURE for an edge to qualify; append "%" for relative values
         "contrast-min-curvature": ["--contrast-min-curvature",  0],
         # set scale on which to look for edges; positive LCESCALE switches on.
@@ -146,10 +146,6 @@ settings = {
         #"save-masks"            : ["--save-masks", "%f-softmask-%n.png:%f-hardmask-%n.png"],
         # load masks from files
         #"load-masks"            : ["--load-masks", "%f-softmask-%n.png:%f-hardmask-%n.png"],
-        # image CACHESIZE in megabytes; default: 1024MB
-        "image_cachesize"       : ["-m",                        4096],
-        # image cache BLOCKSIZE in kilobytes; default: 2048KB
-        "image_cacheblocksize"  : ["-b",                        4096],
         # Misc arguments
         "misc_args"             : ["",                          False]
     }
@@ -160,16 +156,11 @@ class data:
     def __init__(self):
         self.update_folders()
         settings["cpus"] = multiprocessing.cpu_count()
-        if settings["cpus"] > 1 and self.check_install("enfuse-mp"):
-            print("Will use all the powers of your CPU!")
-            settings["enfuser"] = "enfuse-mp"
-        else:  
-            settings["enfuser"] = "enfuse"
-
+ 
     def update_folders(self):        
         # save tmp files in current working folder
         settings["enfuse_folder"]  = settings["temp_folder"]
-        settings["preview_folder"] = os.path.join(settings["temp_folder"], "preview")
+        settings["preview_folder"] = os.path.join(settings["temp_folder"], "mfusion_preview")
         
         if not os.path.exists(settings["config_folder"]):
             os.makedirs(settings["config_folder"])
@@ -185,12 +176,12 @@ class data:
             if (key == "soft-mask" or key == "hard-mask" or key == "use_ciecam" or key == "misc_args"):
                 if value[1]:
                     options.append(value[0])
-            elif key == "gray-projector":
+            elif key == "gray-projector" and value[1] != None:
                 options.append(value[0] + "=" + enfuse_gray_projector_options[value[1]])
             elif key == "contrast-edge-scale" and value[1]:
                 options.append(value[0] + "=" + str(value[1]) + ":" + str(value[2]) + ":" + str(value[3]))
             else:
-                if value[1]:
+                if value[1] != None:
                     if "--" in value[0]:
                         options.append(value[0] + "=" + str(value[1]))
                     else:
@@ -303,18 +294,18 @@ class Interface:
         self.hscalemu = self.gui.get_object("hscalemu")
         self.ajus_mu = Gtk.Adjustment(value=0.5, lower=0, upper=1, step_incr=0.01, page_incr=0.1, page_size=0)
         self.hscalemu.set_adjustment(self.ajus_mu)
-        self.spinbuttonmu = self.gui.get_object("spinbuttonmu")
-        self.spinbuttonmu.set_digits(2)
-        self.spinbuttonmu.set_value(settings["fuse_settings"]["exposure-mu"][1])
-        self.spinbuttonmu.set_adjustment(self.ajus_mu)
+        self.spinbuttonexopt = self.gui.get_object("spinbuttonexopt")
+        self.spinbuttonexopt.set_digits(2)
+        self.spinbuttonexopt.set_value(settings["fuse_settings"]["exposure-optimum"][1])
+        self.spinbuttonexopt.set_adjustment(self.ajus_mu)
         
         self.hscalesigma = self.gui.get_object("hscalesigma")
         self.ajus_sigma = Gtk.Adjustment(value=0.2, lower=0, upper=1, step_incr=0.01, page_incr=0.1, page_size=0)
         self.hscalesigma.set_adjustment(self.ajus_sigma)
-        self.spinbuttonsigma = self.gui.get_object("spinbuttonsigma")
-        self.spinbuttonsigma.set_digits(2)
-        self.spinbuttonsigma.set_value(settings["fuse_settings"]["exposure-sigma"][1])
-        self.spinbuttonsigma.set_adjustment(self.ajus_sigma)
+        self.spinbuttonexwidth = self.gui.get_object("spinbuttonexwidth")
+        self.spinbuttonexwidth.set_digits(2)
+        self.spinbuttonexwidth.set_value(settings["fuse_settings"]["exposure-width"][1])
+        self.spinbuttonexwidth.set_adjustment(self.ajus_sigma)
 
         self.spinbuttonlargeurprev = self.gui.get_object("spinbuttonlargeurprev")
         self.ajus_largeup = Gtk.Adjustment(value=640, lower=128, upper=1280, step_incr=1, page_incr=1, page_size=0)
@@ -380,17 +371,13 @@ class Interface:
  
         self.spinbuttonlargeurprev = self.gui.get_object("spinbuttonlargeurprev")
         self.spinbuttonhauteurprev = self.gui.get_object("spinbuttonhauteurprev")
-        self.checkbuttoncache = self.gui.get_object("checkbuttoncache")
-        self.spinbuttoncache = self.gui.get_object("spinbuttoncache")
-        self.checkbuttonbloc = self.gui.get_object("checkbuttonbloc")
-        self.spinbuttonbloc = self.gui.get_object("spinbuttonbloc")
         self.checkbuttonfinalsize = self.gui.get_object("checkbuttonfinalsize")
         self.spinbuttonfinalwidth = self.gui.get_object("spinbuttonfinalwidth")
         self.spinbuttonfinalheight = self.gui.get_object("spinbuttonfinalheight")
         self.spinbuttonxoff = self.gui.get_object("spinbuttonxoff")
         self.spinbuttonyoff = self.gui.get_object("spinbuttonyoff")
         self.checkbuttonjpegorig = self.gui.get_object("checkbuttonjpegorig")
-        self.hscalecomprjpeg = self.gui.get_object("hscalecomprjpeg")
+        self.hscalecomprjpg = self.gui.get_object("hscalecomprjpg")
         self.combtiff = self.gui.get_object("combtiff")
 
         self.checkbutton_a5_align = self.gui.get_object("checkbutton_a5_align")
@@ -429,14 +416,6 @@ class Interface:
             self.spinbuttonlargeurprev.set_value(self.conf.getint('prefs', 'pwidth'))
         if self.conf.has_option('prefs', 'pheight'):
             self.spinbuttonhauteurprev.set_value(self.conf.getint('prefs', 'pheight'))
-        if self.conf.has_option('prefs', 'cachebutton'):
-            self.checkbuttoncache.set_active(self.conf.getboolean('prefs', 'cachebutton'))
-        if self.conf.has_option('prefs', 'cachesize'):
-            self.spinbuttoncache.set_value(self.conf.getint('prefs', 'cachesize'))
-        if self.conf.has_option('prefs', 'blocbutton'):
-            self.checkbuttonbloc.set_active(self.conf.getboolean('prefs', 'blocbutton'))
-        if self.conf.has_option('prefs', 'blocsize'):
-            self.spinbuttonbloc.set_value(self.conf.getint('prefs', 'blocsize'))
         if self.conf.has_option('prefs', 'outsize'):
             self.checkbuttonfinalsize.set_active(self.conf.getboolean('prefs', 'outsize'))
         if self.conf.has_option('prefs', 'outwidth'):
@@ -449,8 +428,8 @@ class Interface:
             self.spinbuttonyoff.set_value(self.conf.getint('prefs', 'yoff'))
         if self.conf.has_option('prefs', 'jpegdef'):  
             self.checkbuttonjpegorig.set_active(self.conf.getboolean('prefs', 'jpegdef'))
-        if self.conf.has_option('prefs', 'jpegcompr'):  
-            self.hscalecomprjpeg.set_value(self.conf.getfloat('prefs', 'jpegcompr'))
+        if self.conf.has_option('prefs', 'jpeg-compression'):  
+            self.hscalecomprjpg.set_value(self.conf.getint('prefs', 'jpeg-compression'))
         if self.conf.has_option('prefs', 'tiffcomp'):  
             self.combtiff.set_active(self.conf.getint('prefs', 'tiffcomp'))
         if self.conf.has_option('prefs', 'exif'):  
@@ -467,6 +446,50 @@ class Interface:
             self.entryedit_field.set_text(self.conf.get('prefs', 'editor'))
         else:
             self.entryedit_field.set_text("gimp")
+            
+        # read fusion options from config
+        if self.conf.has_option('fusion', 'exposure-weight'):
+            self.spinbuttonexp.set_value(self.conf.getfloat('fusion', 'exposure-weight'))
+        if self.conf.has_option('fusion', 'contrast-weight'):
+            self.spinbuttoncont.set_value(self.conf.getfloat('fusion', 'contrast-weight'))
+        if self.conf.has_option('fusion', 'saturation-weight'):
+            self.spinbuttonsat.set_value(self.conf.getfloat('fusion', 'saturation-weight'))    
+        if self.conf.has_option('fusion', 'exposure-optimum'):
+            self.spinbuttonexopt.set_value(self.conf.getfloat('fusion', 'exposure-optimum'))    
+        if self.conf.has_option('fusion', 'exposure-width'):
+            self.spinbuttonexwidth.set_value(self.conf.getfloat('fusion', 'exposure-width'))    
+
+        # read expert options from config                
+        if self.conf.has_option('expert', 'pyramid-levels-enabled'):
+            self.check_pyramidelevel.set_active(self.conf.getboolean('expert', 'pyramid-levels-enabled'))                
+        if self.conf.has_option('expert', 'pyramid-levels'):
+            self.spinbuttonlevel.set_value(self.conf.getint('expert', 'pyramid-levels'))                      
+        if self.conf.has_option('expert', 'hard-mask'):
+            self.check_hardmask.set_active(self.conf.getboolean('expert', 'hard-mask'))
+        if self.conf.has_option('expert', 'contrast-window-enabled'):
+            self.check_contwin.set_active(self.conf.getboolean('expert', 'contrast-window-enabled'))            
+        if self.conf.has_option('expert', 'contrast-window-size'):
+            self.spinbuttoncontwin.set_value(self.conf.getint('expert', 'contrast-window-size'))
+        if self.conf.has_option('expert', 'min-curvature-enabled'):
+            self.check_courb.set_active(self.conf.getboolean('expert', 'min-curvature-enabled'))    
+        if self.conf.has_option('expert', 'min-curvature-percent'):
+            self.check_prctcourb.set_active(self.conf.getboolean('expert', 'min-curvature-percent'))    
+        if self.conf.has_option('expert', 'min-curvature'):
+            self.spinbuttoncourb.set_value(self.conf.getint('expert', 'min-curvature'))    
+
+        if self.conf.has_option('expert', 'edgescale-enabled'):
+            self.check_detecbord.set_active(self.conf.getboolean('expert', 'edgescale-enabled'))                
+        if self.conf.has_option('expert', 'edgescale-value'):
+            self.spinbuttonEdge.set_value(self.conf.getfloat('expert', 'edgescale-value'))                      
+        if self.conf.has_option('expert', 'edgescale-lcescale-percent'):
+            self.check_lces.set_active(self.conf.getboolean('expert', 'edgescale-lcescale-percent'))    
+        if self.conf.has_option('expert', 'edgescale-lcescale'):
+            self.spinbuttonLceS.set_value(self.conf.getfloat('expert', 'edgescale-lcescale'))    
+        if self.conf.has_option('expert', 'edgescale-lcefactor-percent'):
+            self.check_lcef.set_active(self.conf.getboolean('expert', 'edgescale-lcefactor-percent'))    
+        if self.conf.has_option('expert', 'edgescale-lcefactor'):
+            self.spinbuttonLceF.set_value(self.conf.getfloat('expert', 'edgescale-lcefactor'))    
+            
 
         #On relie les signaux (cliques sur boutons, cochage des cases, ...) aux fonctions appropriées
         dic = { "on_mainwindow_destroy"             : self.exit_app,
@@ -619,11 +642,16 @@ class Interface:
 
     def update_enfuse_options(self):
         settings["fuse_settings"]["exposure-weight"][1]     = self.spinbuttonexp.get_value()
-        settings["fuse_settings"]["exposure-mu"][1]         = self.spinbuttonmu.get_value()
-        settings["fuse_settings"]["exposure-sigma"][1]      = self.spinbuttonsigma.get_value()
+        settings["fuse_settings"]["exposure-optimum"][1]    = self.spinbuttonexopt.get_value()
+        settings["fuse_settings"]["exposure-width"][1]      = self.spinbuttonexwidth.get_value()
         settings["fuse_settings"]["contrast-weight"][1]     = self.spinbuttoncont.get_value()
         settings["fuse_settings"]["saturation-weight"][1]   = self.spinbuttonsat.get_value()
-        settings["fuse_settings"]["levels"][1]              = self.spinbuttonlevel.get_value_as_int()
+        
+        if self.check_pyramidelevel.get_active():
+            settings["fuse_settings"]["levels"][1]  = self.spinbuttonlevel.get_value_as_int()
+        else:
+            settings["fuse_settings"]["levels"][1]  = None
+            
         if self.check_hardmask.get_active():
             settings["fuse_settings"]["hard-mask"][1] = True
             settings["fuse_settings"]["soft-mask"][1] = False
@@ -633,12 +661,16 @@ class Interface:
             
         if self.check_contwin.get_active():
             settings["fuse_settings"]["contrast-window-size"][1] = self.spinbuttoncontwin.get_value_as_int()
+        else:
+            settings["fuse_settings"]["contrast-window-size"][1] = None
  
         if self.check_courb.get_active():
             if self.check_prctcourb.get_active():
                 settings["fuse_settings"]["contrast-min-curvature"][1] = str(self.spinbuttoncourb.get_value()) + "%"
             else:
                 settings["fuse_settings"]["contrast-min-curvature"][1] = str(self.spinbuttoncourb.get_value())
+        else:
+            settings["fuse_settings"]["contrast-min-curvature"][1] = None
 
         if self.check_detecbord.get_active():
             settings["fuse_settings"]["contrast-edge-scale"][1] = str(self.spinbuttonEdge.get_value())
@@ -650,18 +682,19 @@ class Interface:
                 settings["fuse_settings"]["contrast-edge-scale"][3] = str(self.spinbuttonLceF.get_value()) + '%'
             else:
                 settings["fuse_settings"]["contrast-edge-scale"][3] = str(self.spinbuttonLceF.get_value())
+        else:
+            settings["fuse_settings"]["contrast-edge-scale"][1] = None
         
         if self.check_ciecam.get_active():
             settings["fuse_settings"]["use_ciecam"][1] = True
+        else:
+            settings["fuse_settings"]["use_ciecam"][1] = False
 
         if self.check_desatmeth.get_active():
             settings["fuse_settings"]["gray-projector"][1] = self.combobox_desatmet.get_active()
+        else:
+            settings["fuse_settings"]["gray-projector"][1] = None  # default to average
 
-        if not self.checkbuttoncache.get_active():
-            settings["fuse_settings"]["image_cachesize"][1] = self.spinbuttoncache.get_value_as_int()
-
-        if not self.checkbuttonbloc.get_active():
-            settings["fuse_settings"]["image_cacheblocksize"][1] = self.spinbuttonbloc.get_value_as_int()
 
         if not self.checkbuttonfinalsize.get_active():
             settings["fuse_settings"]["output_dimensions"] = [ "-f",
@@ -673,7 +706,7 @@ class Interface:
         if self.name.endswith(('.tif', '.tiff', '.TIF', '.TIFF')):
             settings["fuse_settings"]["compression"][1] = tiff_compression[self.combtiff.get_active()]
         if self.name.endswith(('.jpg', '.jpeg', '.JPG', '.JPEG')) and (not self.checkbuttonjpegorig.get_active()):
-            settings["fuse_settings"]["compression"][1] = str(int(self.hscalecomprjpeg.get_value()))      
+            settings["fuse_settings"]["compression"][1] = str(int(self.hscalecomprjpg.get_value()))      
 
         
     def pulsate(self):
@@ -772,22 +805,44 @@ class Interface:
         # conf.set('prefs', 'w', self.spinbuttonEdge.get_value_as_int())
         conf.set('prefs', 'pwidth', str(self.spinbuttonlargeurprev.get_value_as_int()))
         conf.set('prefs', 'pheight', str(self.spinbuttonhauteurprev.get_value_as_int()))
-        conf.set('prefs', 'cachebutton', str(self.checkbuttoncache.get_active()))
-        conf.set('prefs', 'cachesize', str(self.spinbuttoncache.get_value_as_int()))
-        conf.set('prefs', 'blocbutton', str(self.checkbuttonbloc.get_active()))
-        conf.set('prefs', 'blocsize', str(self.spinbuttonbloc.get_value_as_int()))
         conf.set('prefs', 'outsize', str(self.checkbuttonfinalsize.get_active()))
         conf.set('prefs', 'outwidth', str(self.spinbuttonfinalwidth.get_value_as_int()))
         conf.set('prefs', 'outheight', str(self.spinbuttonfinalheight.get_value_as_int()))
         conf.set('prefs', 'xoff', str(self.spinbuttonxoff.get_value_as_int()))
         conf.set('prefs', 'yoff', str(self.spinbuttonyoff.get_value_as_int()))
         conf.set('prefs', 'jpegdef', str(self.checkbuttonjpegorig.get_active()))
-        conf.set('prefs', 'jpegcompr', str(int(self.hscalecomprjpeg.get_value())))
+        conf.set('prefs', 'jpeg-compression', str(int(self.hscalecomprjpg.get_value())))
         conf.set('prefs', 'tiffcomp', str(self.combtiff.get_active()))
         conf.set('prefs', 'exif', str(self.checkbuttonexif.get_active()))
         conf.set('prefs', 'alignfiles', str(self.checkbuttonalignfiles.get_active()))
         conf.set('prefs', 'editor',  str(self.entryedit_field.get_text()))
         conf.set('prefs', 'default_folder', settings["default_folder"])
+
+        conf.add_section('fusion')        
+        conf.set('fusion', 'exposure-weight', str(float('%.1f'%self.spinbuttonexp.get_value())))
+        conf.set('fusion', 'contrast-weight', str(float('%.1f'%self.spinbuttoncont.get_value())))
+        conf.set('fusion', 'saturation-weight', str(float('%.1f'%self.spinbuttonsat.get_value())))
+        conf.set('fusion', 'exposure-optimum', str(float('%.1f'%self.spinbuttonexopt.get_value())))
+        conf.set('fusion', 'exposure-width', str(float('%.1f'%self.spinbuttonexwidth.get_value())))
+        
+        conf.add_section('expert')                
+        conf.set('expert', 'pyramid-levels-enabled', str(self.check_pyramidelevel.get_active()))
+        conf.set('expert', 'pyramid-levels', str(int(self.spinbuttonlevel.get_value())))
+        conf.set('expert', 'hard-mask', str(self.check_hardmask.get_active()))
+        conf.set('expert', 'contrast-window-enabled', str(self.check_contwin.get_active()))
+        conf.set('expert', 'contrast-window-size', str(int(self.spinbuttoncontwin.get_value())))
+        
+        conf.set('expert', 'min-curvature-enabled', str(self.check_courb.get_active()))
+        conf.set('expert', 'min-curvature-percent', str(self.check_prctcourb.get_active()))
+        conf.set('expert', 'min-curvature', str(int(self.spinbuttoncourb.get_value())))
+
+        conf.set('expert', 'edgescale-enabled', str(self.check_detecbord.get_active()))
+        conf.set('expert', 'edgescale-value', str(float('%.1f'%self.spinbuttonEdge.get_value())))
+        conf.set('expert', 'edgescale-lcescale-percent', str(self.check_lces.get_active()))
+        conf.set('expert', 'edgescale-lcescale', str(float('%.1f'%self.spinbuttonLceS.get_value())))     
+        conf.set('expert', 'edgescale-lcefactor-percent', str(self.check_lcef.get_active()))
+        conf.set('expert', 'edgescale-lcefactor', str(float('%.1f'%self.spinbuttonLceF.get_value())))     
+        
         conf.write(open(os.path.join(settings["config_folder"], 'mfusion.cfg'), 'w'))
         return
 
