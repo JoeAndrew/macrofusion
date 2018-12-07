@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 -->
+<!-- Generated with glade 3.22.0 -->
 <interface>
-  <requires lib="gtk+" version="3.0"/>
+  <requires lib="gtk+" version="3.10"/>
   <object class="GtkAdjustment" id="adjustment1">
     <property name="upper">1</property>
     <property name="value">1</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">0.10000000000000001</property>
+    <property name="step_increment">0.1</property>
+    <property name="page_increment">0.1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment10">
     <property name="upper">1</property>
-    <property name="value">0.20000000000000001</property>
+    <property name="value">0.2</property>
     <property name="step_increment">0.01</property>
-    <property name="page_increment">0.10000000000000001</property>
+    <property name="page_increment">0.1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment11">
     <property name="upper">29</property>
@@ -35,17 +35,17 @@
   </object>
   <object class="GtkAdjustment" id="adjustment14">
     <property name="upper">100</property>
-    <property name="step_increment">0.10000000000000001</property>
+    <property name="step_increment">0.1</property>
     <property name="page_increment">1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment15">
     <property name="upper">100</property>
-    <property name="step_increment">0.10000000000000001</property>
+    <property name="step_increment">0.1</property>
     <property name="page_increment">1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment16">
     <property name="upper">100</property>
-    <property name="step_increment">0.10000000000000001</property>
+    <property name="step_increment">0.1</property>
     <property name="page_increment">1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment17">
@@ -71,7 +71,7 @@
   <object class="GtkAdjustment" id="adjustment2">
     <property name="upper">1</property>
     <property name="value">1</property>
-    <property name="step_increment">0.10000000000000001</property>
+    <property name="step_increment">0.1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment20">
     <property name="upper">10000</property>
@@ -99,18 +99,6 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment25">
-    <property name="upper">100</property>
-    <property name="value">85</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkHScale" id="hscalecomprjpeg">
-    <property name="visible">True</property>
-    <property name="can_focus">True</property>
-    <property name="adjustment">adjustment25</property>
-    <property name="digits">0</property>
-  </object>
   <object class="GtkAdjustment" id="adjustment26">
     <property name="upper">100</property>
     <property name="step_increment">1</property>
@@ -118,90 +106,45 @@
   </object>
   <object class="GtkAdjustment" id="adjustment3">
     <property name="upper">1</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">0.10000000000000001</property>
+    <property name="step_increment">0.1</property>
+    <property name="page_increment">0.1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment4">
     <property name="upper">1</property>
-    <property name="step_increment">0.10000000000000001</property>
+    <property name="step_increment">0.1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment5">
     <property name="upper">1</property>
-    <property name="value">0.20000000000000001</property>
-    <property name="step_increment">0.10000000000000001</property>
+    <property name="value">0.2</property>
+    <property name="step_increment">0.1</property>
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment6">
     <property name="upper">1</property>
-    <property name="value">0.20000000000000001</property>
-    <property name="step_increment">0.10000000000000001</property>
+    <property name="value">0.2</property>
+    <property name="step_increment">0.1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment7">
     <property name="upper">1</property>
     <property name="value">0.5</property>
     <property name="step_increment">0.01</property>
-    <property name="page_increment">0.10000000000000001</property>
+    <property name="page_increment">0.1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment8">
     <property name="upper">1</property>
     <property name="value">0.5</property>
     <property name="step_increment">0.01</property>
-    <property name="page_increment">0.10000000000000001</property>
+    <property name="page_increment">0.1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment9">
     <property name="upper">1</property>
     <property name="step_increment">0.01</property>
-    <property name="page_increment">0.10000000000000001</property>
-  </object>
-  <object class="GtkListStore" id="model1">
-    <columns>
-      <!-- column-name gchararray -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Mean</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">L-star</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Lightness</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Value</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Luminance</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">PL-Star</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model2">
-    <columns>
-      <!-- column-name gchararray -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">None</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Packbits</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">LZW</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Deflate</col>
-      </row>
-    </data>
+    <property name="page_increment">0.1</property>
   </object>
   <object class="GtkWindow" id="mainwindow">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="window_position">center</property>
     <signal name="destroy" handler="on_mainwindow_destroy" swapped="no"/>
     <child>
       <object class="GtkBox" id="vbox1">
@@ -216,11 +159,13 @@
               <object class="GtkBox" id="vbox12">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
+                <property name="baseline_position">top</property>
                 <child>
                   <object class="GtkBox" id="box2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="baseline_position">top</property>
                     <child>
                       <object class="GtkFrame" id="frame8">
                         <property name="visible">True</property>
@@ -233,7 +178,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="valign">end</property>
-                            <property name="orientation">vertical</property>
+                            <property name="spacing">10</property>
                             <property name="layout_style">start</property>
                             <child>
                               <object class="GtkButton" id="buttonaddfile">
@@ -342,17 +287,32 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
                     <property name="padding">1</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="vbox7">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <property name="baseline_position">bottom</property>
                 <child>
                   <object class="GtkBox" id="vbox2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="valign">baseline</property>
                     <property name="orientation">vertical</property>
+                    <property name="baseline_position">top</property>
                     <child>
                       <object class="GtkNotebook" id="notebook1">
                         <property name="visible">True</property>
@@ -362,7 +322,6 @@
                           <object class="GtkBox" id="vbox3">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkFrame" id="frame3">
                                 <property name="visible">True</property>
@@ -401,7 +360,7 @@
                                             <child>
                                               <object class="GtkHScale" id="hscaleexp">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can_focus">True</property>
                                                 <property name="tooltip_text">
 --exposure-weight=WEIGHT
 
@@ -427,10 +386,12 @@ weight given to well-exposed pixels
 weight given to well-exposed pixels
 						</property>
                                                 <property name="invisible_char">•</property>
+                                                <property name="text" translatable="yes">1.0</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment2</property>
                                                 <property name="digits">1</property>
+                                                <property name="value">1</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -449,7 +410,7 @@ weight given to well-exposed pixels
                                           <object class="GtkLabel" id="label11">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Contrast (default: 0)</property>
+                                            <property name="label" translatable="yes">Contrast (default: 1)</property>
                                             <property name="xalign">0</property>
                                           </object>
                                           <packing>
@@ -467,7 +428,7 @@ weight given to well-exposed pixels
                                             <child>
                                               <object class="GtkHScale" id="hscalecont">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can_focus">True</property>
                                                 <property name="tooltip_text">
 --contrast-weight=WEIGHT
 
@@ -492,6 +453,7 @@ weight given to pixels in high-contrast neighborhoods
 weight given to pixels in high-contrast neighborhoods
 						</property>
                                                 <property name="invisible_char">•</property>
+                                                <property name="text" translatable="yes">0.0</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment4</property>
@@ -532,7 +494,7 @@ weight given to pixels in high-contrast neighborhoods
                                             <child>
                                               <object class="GtkHScale" id="hscalesat">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can_focus">True</property>
                                                 <property name="tooltip_text">
 --saturation-weight=WEIGHT
 
@@ -557,10 +519,12 @@ weight given to highly-saturated pixels
 weight given to highly-saturated pixels
 						</property>
                                                 <property name="invisible_char">•</property>
+                                                <property name="text" translatable="yes">0.2</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment6</property>
                                                 <property name="digits">1</property>
+                                                <property name="value">0.2</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -579,7 +543,7 @@ weight given to highly-saturated pixels
                                           <object class="GtkLabel" id="label13">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Mean exposure (default: 0.5)</property>
+                                            <property name="label" translatable="yes">Exposure optimum (default: 0.5)</property>
                                             <property name="xalign">0</property>
                                           </object>
                                           <packing>
@@ -597,9 +561,9 @@ weight given to highly-saturated pixels
                                             <child>
                                               <object class="GtkHScale" id="hscalemu">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can_focus">True</property>
                                                 <property name="tooltip_text">
---exposure-mu=MEAN
+--exposure-optimum=OPTIMUM
 
 center also known as MEAN of Gaussian weighting
 						</property>
@@ -613,19 +577,21 @@ center also known as MEAN of Gaussian weighting
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkSpinButton" id="spinbuttonmu">
+                                              <object class="GtkSpinButton" id="spinbuttonexopt">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip_text">
---exposure-mu=MEAN
+--exposure-optimum=OPTIMUM
 
 center also known as MEAN of Gaussian weighting
 						</property>
                                                 <property name="invisible_char">•</property>
+                                                <property name="text" translatable="yes">0.5</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment8</property>
                                                 <property name="digits">1</property>
+                                                <property name="value">0.5</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -644,7 +610,7 @@ center also known as MEAN of Gaussian weighting
                                           <object class="GtkLabel" id="label14">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Deviation (default: 0.2)</property>
+                                            <property name="label" translatable="yes">Exposure width (default: 0.2)</property>
                                             <property name="xalign">0</property>
                                           </object>
                                           <packing>
@@ -663,9 +629,9 @@ center also known as MEAN of Gaussian weighting
                                             <child>
                                               <object class="GtkHScale" id="hscalesigma">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can_focus">True</property>
                                                 <property name="tooltip_text">
---exposure-sigma=SIGMA
+--exposure-width=WIDTH
 
 standard deviation of Gaussian weighting
 						</property>
@@ -679,19 +645,21 @@ standard deviation of Gaussian weighting
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkSpinButton" id="spinbuttonsigma">
+                                              <object class="GtkSpinButton" id="spinbuttonexwidth">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip_text">
---exposure-sigma=SIGMA
+--exposure-width=WIDTH
 
 standard deviation of Gaussian weighting
 						</property>
                                                 <property name="invisible_char">•</property>
+                                                <property name="text" translatable="yes">0.2</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment10</property>
                                                 <property name="digits">1</property>
+                                                <property name="value">0.2</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -720,8 +688,8 @@ standard deviation of Gaussian weighting
                                 </child>
                               </object>
                               <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
                                 <property name="position">0</property>
                               </packing>
                             </child>
@@ -735,28 +703,31 @@ standard deviation of Gaussian weighting
                                   <object class="GtkAlignment" id="alignment_a5">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="margin_right">20</property>
                                     <property name="left_padding">12</property>
                                     <child>
                                       <object class="GtkBox" id="vboxa_a5">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="orientation">vertical</property>
+                                        <property name="baseline_position">top</property>
                                         <child>
                                           <object class="GtkCheckButton" id="checkbutton_a5_align">
                                             <property name="label" translatable="yes">Align</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text">
 Auto align images.
 </property>
-                                            <property name="xalign">0.5</property>
+                                            <property name="halign">start</property>
+                                            <property name="valign">start</property>
+                                            <property name="margin_bottom">4</property>
                                             <property name="draw_indicator">True</property>
                                             <signal name="toggled" handler="on_checkbutton_a5_align_toggled" swapped="no"/>
                                           </object>
                                           <packing>
-                                            <property name="expand">True</property>
+                                            <property name="expand">False</property>
                                             <property name="fill">True</property>
                                             <property name="position">0</property>
                                           </packing>
@@ -764,18 +735,19 @@ Auto align images.
                                         <child>
                                           <object class="GtkCheckButton" id="checkbutton_a5_crop">
                                             <property name="label" translatable="yes">Autocrop</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text">
 Auto crop the image to the area covered by all images.
 </property>
-                                            <property name="xalign">0.5</property>
+                                            <property name="halign">start</property>
+                                            <property name="valign">start</property>
+                                            <property name="margin_bottom">4</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
-                                            <property name="expand">True</property>
+                                            <property name="expand">False</property>
                                             <property name="fill">True</property>
                                             <property name="position">1</property>
                                           </packing>
@@ -783,40 +755,41 @@ Auto crop the image to the area covered by all images.
                                         <child>
                                           <object class="GtkCheckButton" id="checkbutton_a5_shift">
                                             <property name="label" translatable="yes">Optimize image center shift</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text">
 Optimize image center shift for all images, except for first.
 Useful for aligning more distorted images.
 </property>
-                                            <property name="xalign">0.5</property>
+                                            <property name="halign">start</property>
+                                            <property name="valign">start</property>
+                                            <property name="margin_bottom">4</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
                                             <property name="position">2</property>
                                           </packing>
                                         </child>
                                         <child>
                                           <object class="GtkCheckButton" id="checkbutton_a5_field">
                                             <property name="label" translatable="yes">Optimize field of view</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text">
 Optimize field of view for all images, except for first.
 Useful for aligning focus stacks with slightly different magnification.
 </property>
+                                            <property name="halign">start</property>
+                                            <property name="valign">start</property>
                                             <property name="margin_bottom">4</property>
-                                            <property name="xalign">0.5</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
-                                            <property name="expand">True</property>
+                                            <property name="expand">False</property>
                                             <property name="fill">True</property>
                                             <property name="position">3</property>
                                           </packing>
@@ -836,7 +809,7 @@ Useful for aligning focus stacks with slightly different magnification.
                               </object>
                               <packing>
                                 <property name="expand">False</property>
-                                <property name="fill">False</property>
+                                <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
@@ -872,20 +845,21 @@ Useful for aligning focus stacks with slightly different magnification.
                                       <object class="GtkBox" id="hbox8">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="border_width">4</property>
+                                        <property name="halign">start</property>
+                                        <property name="spacing">20</property>
                                         <child>
                                           <object class="GtkCheckButton" id="check_pyramidelevel">
                                             <property name="label" translatable="yes">Pyramid levels: </property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text">
 --levels=LEVELS
 
 number of blending LEVELS to use
 					    </property>
-                                            <property name="xalign">0.5</property>
+                                            <property name="halign">start</property>
+                                            <property name="margin_right">13</property>
                                             <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
@@ -905,9 +879,11 @@ number of blending LEVELS to use
 number of blending LEVELS to use
 					    </property>
                                             <property name="invisible_char">•</property>
+                                            <property name="text" translatable="yes">29</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="adjustment">adjustment11</property>
+                                            <property name="value">29</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -924,22 +900,10 @@ number of blending LEVELS to use
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkHSeparator" id="hseparator5">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                    <child>
                                       <object class="GtkCheckButton" id="check_hardmask">
                                         <property name="label" translatable="yes">Force HardMask </property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
+                                        <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="tooltip_text">
 --hard-mask
@@ -949,11 +913,9 @@ scale; this is especially useful for focus
 stacks with thin and high contrast features,
 but leads to increased noise.
                                     </property>
-                                        <property name="margin_left">4</property>
-                                        <property name="margin_right">4</property>
+                                        <property name="halign">start</property>
                                         <property name="margin_top">4</property>
                                         <property name="margin_bottom">4</property>
-                                        <property name="xalign">0.5</property>
                                         <property name="draw_indicator">True</property>
                                       </object>
                                       <packing>
@@ -963,34 +925,23 @@ but leads to increased noise.
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkHSeparator" id="hseparator2">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">3</property>
-                                      </packing>
-                                    </child>
-                                    <child>
                                       <object class="GtkBox" id="hbox2">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="border_width">4</property>
+                                        <property name="halign">start</property>
                                         <child>
                                           <object class="GtkCheckButton" id="check_contwin">
                                             <property name="label" translatable="yes">Contrast window:</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="tooltip_text">
 --contrast-window-size=SIZE
 
 set window SIZE for local-contrast analysis
 					    </property>
-                                            <property name="xalign">0.5</property>
+                                            <property name="halign">start</property>
+                                            <property name="margin_right">24</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
@@ -1009,9 +960,11 @@ set window SIZE for local-contrast analysis
 set window SIZE for local-contrast analysis.
                                         </property>
                                             <property name="invisible_char">•</property>
+                                            <property name="text" translatable="yes">3</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="adjustment">adjustment12</property>
+                                            <property name="value">3</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1028,58 +981,28 @@ set window SIZE for local-contrast analysis.
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkHSeparator" id="hseparator9">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">5</property>
-                                      </packing>
-                                    </child>
-                                    <child>
                                       <object class="GtkBox" id="hbox16">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="border_width">4</property>
+                                        <property name="halign">start</property>
                                         <child>
                                           <object class="GtkCheckButton" id="check_courb">
                                             <property name="label" translatable="yes">Min Curvature:</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
-                                            <property name="tooltip_text">
-
---contrast-min-curvature=CURVATURE
+                                            <property name="tooltip_text">--contrast-min-curvature=CURVATURE
 
 minimum CURVATURE for an edge to qualify
 					    </property>
-                                            <property name="xalign">0.5</property>
+                                            <property name="halign">start</property>
+                                            <property name="margin_right">43</property>
                                             <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
-                                            <property name="fill">True</property>
+                                            <property name="fill">False</property>
                                             <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkCheckButton" id="check_prctcourb">
-                                            <property name="label" translatable="yes">%</property>
-                                            <property name="use_action_appearance">False</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="xalign">0.5</property>
-                                            <property name="draw_indicator">True</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="padding">5</property>
-                                            <property name="position">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1091,7 +1014,9 @@ minimum CURVATURE for an edge to qualify
 
 minimum CURVATURE for an edge to qualify.
                                         </property>
+                                            <property name="halign">start</property>
                                             <property name="invisible_char">•</property>
+                                            <property name="text" translatable="yes">0</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="adjustment">adjustment13</property>
@@ -1099,8 +1024,22 @@ minimum CURVATURE for an edge to qualify.
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="pack_type">end</property>
-                                            <property name="position">3</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="check_prctcourb">
+                                            <property name="label" translatable="yes">%</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="halign">start</property>
+                                            <property name="draw_indicator">True</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">2</property>
                                           </packing>
                                         </child>
                                       </object>
@@ -1111,22 +1050,10 @@ minimum CURVATURE for an edge to qualify.
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkHSeparator" id="hseparator4">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">8</property>
-                                      </packing>
-                                    </child>
-                                    <child>
                                       <object class="GtkCheckButton" id="check_detecbord">
                                         <property name="label" translatable="yes">EdgeScale:</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
+                                        <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="tooltip_text">
 --contrast-edge-scale=EDGESCALE[:LCESCALE[:LCEFACTOR]]
@@ -1138,11 +1065,9 @@ append "%" to LCESCALE for values relative to
 EDGESCALE; append "%" to LCEFACTOR for relative
 value.
                                     </property>
-                                        <property name="margin_left">4</property>
-                                        <property name="margin_right">4</property>
+                                        <property name="halign">start</property>
                                         <property name="margin_top">4</property>
                                         <property name="border_width">0</property>
-                                        <property name="xalign">0.5</property>
                                         <property name="draw_indicator">True</property>
                                       </object>
                                       <packing>
@@ -1155,7 +1080,10 @@ value.
                                       <object class="GtkBox" id="hbox15">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="halign">start</property>
+                                        <property name="margin_left">158</property>
                                         <property name="border_width">4</property>
+                                        <property name="spacing">20</property>
                                         <child>
                                           <object class="GtkBox" id="vbox4">
                                             <property name="visible">True</property>
@@ -1171,6 +1099,7 @@ Gaussian (LoG) edge detection algorithm. EDGE-SCALE is the
 radius of the Gaussian used in the search for edges.
                                             </property>
                                                 <property name="invisible_char">•</property>
+                                                <property name="text" translatable="yes">0.0</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment14</property>
@@ -1223,6 +1152,7 @@ the enhancement step, LCE-FACTOR is the weight
 factor (“strength”).
                                             </property>
                                                     <property name="invisible_char">•</property>
+                                                    <property name="text" translatable="yes">0.0</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="adjustment">adjustment15</property>
@@ -1239,10 +1169,10 @@ factor (“strength”).
                                                     <property name="label">%</property>
                                                     <property name="use_action_appearance">False</property>
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="tooltip_text">value as %</property>
-                                                    <property name="xalign">0.5</property>
+                                                    <property name="xalign">0</property>
                                                     <property name="draw_indicator">True</property>
                                                   </object>
                                                   <packing>
@@ -1295,6 +1225,8 @@ factor (“strength”).
 LCE-FACTOR is the weight factor (“strength”)
                                             </property>
                                                     <property name="invisible_char">•</property>
+                                                    <property name="width_chars">6</property>
+                                                    <property name="text" translatable="yes">0.0</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="adjustment">adjustment16</property>
@@ -1311,10 +1243,10 @@ LCE-FACTOR is the weight factor (“strength”)
                                                     <property name="label">%</property>
                                                     <property name="use_action_appearance">False</property>
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="tooltip_text">value as %</property>
-                                                    <property name="xalign">0.5</property>
+                                                    <property name="xalign">0</property>
                                                     <property name="draw_indicator">True</property>
                                                   </object>
                                                   <packing>
@@ -1359,33 +1291,19 @@ LCE-FACTOR is the weight factor (“strength”)
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkHSeparator" id="hseparator7">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">11</property>
-                                      </packing>
-                                    </child>
-                                    <child>
                                       <object class="GtkCheckButton" id="check_ciecam">
                                         <property name="label" translatable="yes">Use CIECAM02 color profile</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
+                                        <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="tooltip_text">
 -c
 
 use CIECAM02 to blend colors.
                                     </property>
-                                        <property name="margin_left">4</property>
-                                        <property name="margin_right">4</property>
+                                        <property name="halign">start</property>
                                         <property name="margin_top">4</property>
                                         <property name="margin_bottom">4</property>
-                                        <property name="xalign">0.43000000715255737</property>
                                         <property name="draw_indicator">True</property>
                                       </object>
                                       <packing>
@@ -1395,21 +1313,10 @@ use CIECAM02 to blend colors.
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkHSeparator" id="hseparator1">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">13</property>
-                                      </packing>
-                                    </child>
-                                    <child>
                                       <object class="GtkBox" id="hbox14">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="border_width">4</property>
+                                        <property name="halign">start</property>
                                         <child>
                                           <object class="GtkLabel" id="label8">
                                             <property name="visible">True</property>
@@ -1419,6 +1326,31 @@ use CIECAM02 to blend colors.
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="check_desatmeth">
+                                            <property name="label" translatable="yes">Gray projector:</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="tooltip_text">
+--gray-projector=OPERATOR
+
+apply gray-scale projection OPERATOR in exposure
+or contrast weighing, where OPERATOR is one of
+"average", "l-star", "lightness", "value",
+"luminance", or
+"channel-mixer:RED-WEIGHT:GREEN-WEIGHT:BLUE-WEIGHT".
+                                        </property>
+                                            <property name="halign">start</property>
+                                            <property name="margin_right">34</property>
+                                            <property name="draw_indicator">True</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1436,32 +1368,6 @@ use CIECAM02 to blend colors.
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="pack_type">end</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkCheckButton" id="check_desatmeth">
-                                            <property name="label" translatable="yes">Gray projector:</property>
-                                            <property name="use_action_appearance">False</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="tooltip_text">
---gray-projector=OPERATOR
-
-apply gray-scale projection OPERATOR in exposure
-or contrast weighing, where OPERATOR is one of
-"average", "l-star", "lightness", "value",
-"luminance", or
-"channel-mixer:RED-WEIGHT:GREEN-WEIGHT:BLUE-WEIGHT".
-                                        </property>
-                                            <property name="xalign">0.5</property>
-                                            <property name="draw_indicator">True</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
                                             <property name="position">2</property>
                                           </packing>
                                         </child>
@@ -1515,22 +1421,25 @@ or contrast weighing, where OPERATOR is one of
                                   <object class="GtkAlignment" id="alignment5">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="left_padding">12</property>
+                                    <property name="left_padding">10</property>
                                     <child>
                                       <object class="GtkBox" id="vbox15">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="valign">start</property>
                                         <property name="orientation">vertical</property>
+                                        <property name="baseline_position">top</property>
                                         <child>
                                           <object class="GtkBox" id="hbox17">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <property name="halign">start</property>
                                             <property name="border_width">4</property>
                                             <child>
                                               <object class="GtkLabel" id="label">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
+                                                <property name="margin_right">40</property>
                                                 <property name="label" translatable="yes">Preview size:</property>
                                               </object>
                                               <packing>
@@ -1555,11 +1464,15 @@ or contrast weighing, where OPERATOR is one of
                                                         <property name="can_focus">True</property>
                                                         <property name="has_tooltip">True</property>
                                                         <property name="tooltip_text" translatable="yes">The larger resolution - the longer it takes to generate preview.</property>
+                                                        <property name="max_length">4</property>
                                                         <property name="invisible_char">•</property>
+                                                        <property name="width_chars">5</property>
+                                                        <property name="text" translatable="yes">640</property>
                                                         <property name="primary_icon_activatable">False</property>
                                                         <property name="secondary_icon_activatable">False</property>
                                                         <property name="adjustment">adjustment17</property>
-                                                        <property name="climb_rate">0.029999999999999999</property>
+                                                        <property name="climb_rate">0.03</property>
+                                                        <property name="value">640</property>
                                                       </object>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -1598,11 +1511,15 @@ or contrast weighing, where OPERATOR is one of
                                                         <property name="can_focus">True</property>
                                                         <property name="has_tooltip">True</property>
                                                         <property name="tooltip_text" translatable="yes">The larger resolution - the longer it takes to generate preview.</property>
+                                                        <property name="max_length">4</property>
                                                         <property name="invisible_char">•</property>
+                                                        <property name="width_chars">5</property>
+                                                        <property name="text" translatable="yes">640</property>
                                                         <property name="primary_icon_activatable">False</property>
                                                         <property name="secondary_icon_activatable">False</property>
                                                         <property name="adjustment">adjustment18</property>
-                                                        <property name="climb_rate">0.029999999999999999</property>
+                                                        <property name="climb_rate">0.03</property>
+                                                        <property name="value">640</property>
                                                       </object>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -1646,177 +1563,16 @@ or contrast weighing, where OPERATOR is one of
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkHSeparator" id="hseparator8">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel" id="label23">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="margin_left">4</property>
-                                            <property name="margin_right">4</property>
-                                            <property name="margin_top">4</property>
-                                            <property name="label" translatable="yes">Cache Size:</property>
-                                            <property name="xalign">0</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">2</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkBox" id="hbox12">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="margin_left">4</property>
-                                            <property name="margin_right">4</property>
-                                            <property name="margin_bottom">4</property>
-                                            <child>
-                                              <object class="GtkCheckButton" id="checkbuttoncache">
-                                                <property name="label" translatable="yes">1024 Mb (default)</property>
-                                                <property name="use_action_appearance">False</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="xalign">0.5</property>
-                                                <property name="active">True</property>
-                                                <property name="draw_indicator">True</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkSpinButton" id="spinbuttoncache">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="invisible_char">•</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="adjustment">adjustment19</property>
-                                                <property name="value">1024</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="pack_type">end</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">3</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkHSeparator" id="hseparator3">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">4</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel" id="label17">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="margin_left">4</property>
-                                            <property name="margin_right">4</property>
-                                            <property name="margin_top">4</property>
-                                            <property name="label" translatable="yes">Bloc Size: </property>
-                                            <property name="xalign">0</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">5</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkBox" id="hbox9">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="margin_left">4</property>
-                                            <property name="margin_right">4</property>
-                                            <property name="margin_bottom">4</property>
-                                            <child>
-                                              <object class="GtkCheckButton" id="checkbuttonbloc">
-                                                <property name="label" translatable="yes">2048 kb (default)</property>
-                                                <property name="use_action_appearance">False</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="xalign">0.5</property>
-                                                <property name="active">True</property>
-                                                <property name="draw_indicator">True</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkSpinButton" id="spinbuttonbloc">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="invisible_char">•</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="adjustment">adjustment20</property>
-                                                <property name="value">2048</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="pack_type">end</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">6</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkHSeparator" id="hseparator6">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">7</property>
-                                          </packing>
-                                        </child>
-                                        <child>
                                           <object class="GtkBox" id="hbox11">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="margin_left">4</property>
-                                            <property name="margin_right">4</property>
+                                            <property name="halign">start</property>
                                             <property name="margin_top">4</property>
                                             <child>
                                               <object class="GtkLabel" id="label18">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
+                                                <property name="margin_right">9</property>
                                                 <property name="label" translatable="yes">Final image size:</property>
                                                 <property name="xalign">0</property>
                                               </object>
@@ -1829,11 +1585,9 @@ or contrast weighing, where OPERATOR is one of
                                             <child>
                                               <object class="GtkCheckButton" id="checkbuttonfinalsize">
                                                 <property name="label" translatable="yes">Default</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="xalign">0.5</property>
                                                 <property name="active">True</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
@@ -1856,10 +1610,10 @@ or contrast weighing, where OPERATOR is one of
                                           <object class="GtkBox" id="hbox10">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="margin_left">4</property>
-                                            <property name="margin_right">4</property>
+                                            <property name="halign">start</property>
+                                            <property name="margin_left">127</property>
                                             <property name="margin_bottom">4</property>
-                                            <property name="spacing">1</property>
+                                            <property name="spacing">30</property>
                                             <child>
                                               <object class="GtkBox" id="vbox9">
                                                 <property name="visible">True</property>
@@ -1870,6 +1624,7 @@ or contrast weighing, where OPERATOR is one of
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="invisible_char">•</property>
+                                                    <property name="text" translatable="yes">0</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="adjustment">adjustment21</property>
@@ -1911,6 +1666,7 @@ or contrast weighing, where OPERATOR is one of
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="invisible_char">•</property>
+                                                    <property name="text" translatable="yes">0</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="adjustment">adjustment22</property>
@@ -1952,6 +1708,7 @@ or contrast weighing, where OPERATOR is one of
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="invisible_char">•</property>
+                                                    <property name="text" translatable="yes">0</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="adjustment">adjustment23</property>
@@ -1993,6 +1750,7 @@ or contrast weighing, where OPERATOR is one of
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="invisible_char">•</property>
+                                                    <property name="text" translatable="yes">0</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="adjustment">adjustment24</property>
@@ -2032,25 +1790,16 @@ or contrast weighing, where OPERATOR is one of
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkHSeparator" id="hseparator10">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">10</property>
-                                          </packing>
-                                        </child>
-                                        <child>
                                           <object class="GtkBox" id="hbox18">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <property name="halign">start</property>
                                             <property name="border_width">4</property>
                                             <child>
                                               <object class="GtkLabel" id="label5">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
+                                                <property name="margin_right">30</property>
                                                 <property name="label" translatable="yes">Jpeg quality: </property>
                                               </object>
                                               <packing>
@@ -2062,11 +1811,10 @@ or contrast weighing, where OPERATOR is one of
                                             <child>
                                               <object class="GtkCheckButton" id="checkbuttonjpegorig">
                                                 <property name="label" translatable="yes">Default</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="xalign">0.5</property>
+                                                <property name="margin_right">29</property>
                                                 <property name="active">True</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
@@ -2081,7 +1829,8 @@ or contrast weighing, where OPERATOR is one of
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="max_length">100</property>
-                                                <property name="width_chars">3</property>
+                                                <property name="width_chars">4</property>
+                                                <property name="text" translatable="yes">100</property>
                                                 <property name="adjustment">adjustment26</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="value">100</property>
@@ -2101,21 +1850,12 @@ or contrast weighing, where OPERATOR is one of
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkHSeparator" id="hseparator11">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">13</property>
-                                          </packing>
-                                        </child>
-                                        <child>
                                           <object class="GtkBox" id="hbox19">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <property name="halign">start</property>
                                             <property name="border_width">4</property>
+                                            <property name="spacing">30</property>
                                             <child>
                                               <object class="GtkLabel" id="label9">
                                                 <property name="visible">True</property>
@@ -2156,21 +1896,12 @@ or contrast weighing, where OPERATOR is one of
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkHSeparator" id="hseparator_e_10">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">15</property>
-                                          </packing>
-                                        </child>
-                                        <child>
                                           <object class="GtkBox" id="hbox_e_19">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <property name="halign">start</property>
                                             <property name="border_width">4</property>
+                                            <property name="spacing">20</property>
                                             <child>
                                               <object class="GtkLabel" id="label_e_9">
                                                 <property name="visible">True</property>
@@ -2218,17 +1949,17 @@ Enter name of graphics editor to edit images
                                           <object class="GtkBox" id="box3">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <property name="margin_top">2</property>
                                             <property name="spacing">1</property>
                                             <child>
                                               <object class="GtkCheckButton" id="checkbuttonexif">
                                                 <property name="label" translatable="yes">Copy exif info ?</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
+                                                <property name="halign">start</property>
                                                 <property name="margin_top">4</property>
                                                 <property name="margin_bottom">4</property>
-                                                <property name="xalign">0</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
                                               <packing>
@@ -2240,13 +1971,12 @@ Enter name of graphics editor to edit images
                                             <child>
                                               <object class="GtkCheckButton" id="checkbuttonalignfiles">
                                                 <property name="label" translatable="yes">Create aligned files in folder?</property>
-                                                <property name="use_action_appearance">False</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
+                                                <property name="halign">start</property>
                                                 <property name="margin_top">4</property>
                                                 <property name="margin_bottom">4</property>
-                                                <property name="xalign">0</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>
                                               <packing>
@@ -2273,9 +2003,6 @@ Enter name of graphics editor to edit images
                                             <property name="position">17</property>
                                           </packing>
                                         </child>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
                                       </object>
                                     </child>
                                   </object>
@@ -2290,7 +2017,7 @@ Enter name of graphics editor to edit images
                                 </child>
                               </object>
                               <packing>
-                                <property name="expand">True</property>
+                                <property name="expand">False</property>
                                 <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
@@ -2323,12 +2050,10 @@ Enter name of graphics editor to edit images
                       <object class="GtkButtonBox" id="hbuttonbox1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_right">4</property>
-                        <property name="layout_style">end</property>
+                        <property name="layout_style">start</property>
                         <child>
                           <object class="GtkButton" id="buttonbeforeafter">
                             <property name="label" translatable="yes">_Before/After</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -2346,7 +2071,6 @@ Enter name of graphics editor to edit images
                         <child>
                           <object class="GtkButton" id="buttonpreview">
                             <property name="label" translatable="yes">_Preview</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -2360,31 +2084,16 @@ Enter name of graphics editor to edit images
                             <property name="position">1</property>
                           </packing>
                         </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="padding">1</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkFrame" id="frame11">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="border_width">4</property>
-                        <property name="label_xalign">1</property>
                         <child>
                           <object class="GtkButtonBox" id="hbuttonbox11">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_bottom">4</property>
                             <property name="spacing">2</property>
-                            <property name="layout_style">center</property>
+                            <property name="layout_style">spread</property>
                             <child>
                               <object class="GtkButton" id="buttonabout">
                                 <property name="label">gtk-about</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -2395,13 +2104,11 @@ Enter name of graphics editor to edit images
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
                                 <property name="position">0</property>
-                                <property name="non_homogeneous">True</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkButton" id="buttoncancel">
                                 <property name="label">gtk-quit</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -2411,14 +2118,12 @@ Enter name of graphics editor to edit images
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">3</property>
-                                <property name="non_homogeneous">True</property>
+                                <property name="position">1</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkButton" id="buttoneditw">
                                 <property name="label">gtk-edit</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -2437,7 +2142,6 @@ Enter name of graphics editor to edit images
                             <child>
                               <object class="GtkButton" id="buttonfusion">
                                 <property name="label">gtk-save</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -2454,43 +2158,28 @@ Enter name of graphics editor to edit images
                               </packing>
                             </child>
                           </object>
-                        </child>
-                        <child type="label">
-                          <object class="GtkLabel" id="Action">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Action&lt;/b&gt;</property>
-                            <property name="use_markup">True</property>
-                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="pack_type">end</property>
+                            <property name="position">3</property>
+                            <property name="secondary">True</property>
+                          </packing>
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="expand">True</property>
                         <property name="fill">True</property>
-                        <property name="padding">1</property>
-                        <property name="pack_type">end</property>
-                        <property name="position">2</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">2</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox" id="vbox7">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkFrame" id="frame2">
                     <property name="visible">True</property>
@@ -2526,17 +2215,6 @@ Enter name of graphics editor to edit images
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkProgressBar" id="progressbar">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -2547,9 +2225,21 @@ Enter name of graphics editor to edit images
                   </object>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="fill">True</property>
+                    <property name="fill">False</property>
                     <property name="pack_type">end</property>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkProgressBar" id="progressbar">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="pack_type">end</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>
@@ -2568,5 +2258,57 @@ Enter name of graphics editor to edit images
         </child>
       </object>
     </child>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkListStore" id="model1">
+    <columns>
+      <!-- column-name gchararray -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Anti-value</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Average</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">L-star</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Lightness</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Luminance</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">PL-Star</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Value</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="model2">
+    <columns>
+      <!-- column-name gchararray -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">None</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Packbits</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">LZW</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Deflate</col>
+      </row>
+    </data>
   </object>
 </interface>
