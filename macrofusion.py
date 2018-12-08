@@ -101,7 +101,7 @@ settings = {
         # Use GPU for remapping.
         "use_gpu"               : ["--gpu",     True],
         # Correlation threshold for identifying control points (default: 0.9).
-        "corr_thres"            : ["--corr",    0.6],
+        "corr_thres"            : ["--corr",    0.9],
         # Number of control points (per grid, see option -g) to create between adjacent images (default: 8).
         "num_ctrl_pnt"          : ["-c",        20],
         # Scale down image by 2^scale (default: 1). Scaling down images will improve speed at the cost of accuracy.
@@ -147,7 +147,8 @@ settings = {
         # load masks from files
         #"load-masks"            : ["--load-masks", "%f-softmask-%n.png:%f-hardmask-%n.png"],
         # Misc arguments
-        "misc_args"             : ["",                          False]
+        "misc_args"             : ["",                          False],
+        "verbose"               : ["--verbose",                 6]
     }
 }
 
@@ -489,6 +490,13 @@ class Interface:
             self.check_lcef.set_active(self.conf.getboolean('expert', 'edgescale-lcefactor-percent'))
         if self.conf.has_option('expert', 'edgescale-lcefactor'):
             self.spinbuttonLceF.set_value(self.conf.getfloat('expert', 'edgescale-lcefactor'))
+
+        if self.conf.has_option('expert', 'use-ciecam'):
+            self.check_ciecam.set_active(self.conf.getboolean('expert', 'use-ciecam'))
+        if self.conf.has_option('expert', 'override-gray-projector'):
+            self.check_desatmeth.set_active(self.conf.getboolean('expert', 'override-gray-projector'))
+        if self.conf.has_option('expert', 'gray-projector'):
+            self.combobox_desatmet.set_active(self.conf.getint('expert', 'gray-projector'))
 
 
         #On relie les signaux (cliques sur boutons, cochage des cases, ...) aux fonctions appropriées
@@ -842,6 +850,10 @@ class Interface:
         conf.set('expert', 'edgescale-lcescale', str(float('%.1f'%self.spinbuttonLceS.get_value())))
         conf.set('expert', 'edgescale-lcefactor-percent', str(self.check_lcef.get_active()))
         conf.set('expert', 'edgescale-lcefactor', str(float('%.1f'%self.spinbuttonLceF.get_value())))
+
+        conf.set('expert', 'use-ciecam', str(self.check_ciecam.get_active()))
+        conf.set('expert', 'override-gray-projector', str(self.check_desatmeth.get_active()))
+        conf.set('expert', 'gray-projector', str(int(self.combobox_desatmet.get_active())))
 
         conf.write(open(os.path.join(settings["config_folder"], 'mfusion.cfg'), 'w'))
         return
