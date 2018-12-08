@@ -40,11 +40,11 @@
   </object>
   <object class="GtkAdjustment" id="adjustment15">
     <property name="upper">100</property>
-    <property name="step_increment">0.1</property>
+    <property name="step_increment">1</property>
     <property name="page_increment">1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment16">
-    <property name="upper">100</property>
+    <property name="upper">999</property>
     <property name="step_increment">0.1</property>
     <property name="page_increment">1</property>
   </object>
@@ -140,6 +140,55 @@
     <property name="upper">1</property>
     <property name="step_increment">0.01</property>
     <property name="page_increment">0.1</property>
+  </object>
+  <object class="GtkListStore" id="model1">
+    <columns>
+      <!-- column-name gchararray -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Anti-value</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Average</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">L-star</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Lightness</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Luminance</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">PL-Star</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Value</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="model2">
+    <columns>
+      <!-- column-name gchararray -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">None</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Packbits</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">LZW</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Deflate</col>
+      </row>
+    </data>
   </object>
   <object class="GtkWindow" id="mainwindow">
     <property name="visible">True</property>
@@ -324,6 +373,7 @@
                             <property name="can_focus">False</property>
                             <child>
                               <object class="GtkFrame" id="frame3">
+                                <property name="width_request">500</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="border_width">4</property>
@@ -688,8 +738,8 @@ standard deviation of Gaussian weighting
                                 </child>
                               </object>
                               <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">True</property>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
                                 <property name="position">0</property>
                               </packing>
                             </child>
@@ -703,12 +753,12 @@ standard deviation of Gaussian weighting
                                   <object class="GtkAlignment" id="alignment_a5">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="margin_right">20</property>
                                     <property name="left_padding">12</property>
                                     <child>
                                       <object class="GtkBox" id="vboxa_a5">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="margin_right">25</property>
                                         <property name="orientation">vertical</property>
                                         <property name="baseline_position">top</property>
                                         <child>
@@ -1226,11 +1276,15 @@ LCE-FACTOR is the weight factor (“strength”)
                                             </property>
                                                     <property name="invisible_char">•</property>
                                                     <property name="width_chars">6</property>
+                                                    <property name="max_width_chars">4</property>
                                                     <property name="text" translatable="yes">0.0</property>
                                                     <property name="primary_icon_activatable">False</property>
                                                     <property name="secondary_icon_activatable">False</property>
+                                                    <property name="input_purpose">digits</property>
                                                     <property name="adjustment">adjustment16</property>
+                                                    <property name="climb_rate">1</property>
                                                     <property name="digits">1</property>
+                                                    <property name="numeric">True</property>
                                                   </object>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -1241,12 +1295,11 @@ LCE-FACTOR is the weight factor (“strength”)
                                                 <child>
                                                   <object class="GtkCheckButton" id="check_lcef">
                                                     <property name="label">%</property>
-                                                    <property name="use_action_appearance">False</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="tooltip_text">value as %</property>
-                                                    <property name="xalign">0</property>
+                                                    <property name="halign">start</property>
                                                     <property name="draw_indicator">True</property>
                                                   </object>
                                                   <packing>
@@ -2057,6 +2110,7 @@ Enter name of graphics editor to edit images
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="margin_right">5</property>
                             <property name="use_underline">True</property>
                             <signal name="pressed" handler="on_buttonbeforeafter_pressed" swapped="no"/>
                             <signal name="released" handler="on_buttonbeforeafter_released" swapped="no"/>
@@ -2094,6 +2148,7 @@ Enter name of graphics editor to edit images
                             <child>
                               <object class="GtkButton" id="buttonabout">
                                 <property name="label">gtk-about</property>
+                                <property name="width_request">70</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -2109,6 +2164,7 @@ Enter name of graphics editor to edit images
                             <child>
                               <object class="GtkButton" id="buttoncancel">
                                 <property name="label">gtk-quit</property>
+                                <property name="width_request">70</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -2124,6 +2180,7 @@ Enter name of graphics editor to edit images
                             <child>
                               <object class="GtkButton" id="buttoneditw">
                                 <property name="label">gtk-edit</property>
+                                <property name="width_request">70</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -2142,6 +2199,7 @@ Enter name of graphics editor to edit images
                             <child>
                               <object class="GtkButton" id="buttonfusion">
                                 <property name="label">gtk-save</property>
+                                <property name="width_request">70</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -2261,54 +2319,5 @@ Enter name of graphics editor to edit images
     <child type="titlebar">
       <placeholder/>
     </child>
-  </object>
-  <object class="GtkListStore" id="model1">
-    <columns>
-      <!-- column-name gchararray -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Anti-value</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Average</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">L-star</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Lightness</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Luminance</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">PL-Star</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Value</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="model2">
-    <columns>
-      <!-- column-name gchararray -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">None</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Packbits</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">LZW</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Deflate</col>
-      </row>
-    </data>
   </object>
 </interface>
