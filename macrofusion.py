@@ -100,13 +100,16 @@ settings = {
         "opt_fov"               : ["-m",        True],
         # Use GPU for remapping.
         "use_gpu"               : ["--gpu",     True],
+        # Try to load distortion information from lens database
+        "distortion"            : ["--distortion", True],
         # Correlation threshold for identifying control points (default: 0.9).
-        "corr_thres"            : ["--corr",    0.9],
+        "corr_thres"            : ["--corr",    0.6],
         # Number of control points (per grid, see option -g) to create between adjacent images (default: 8).
         "num_ctrl_pnt"          : ["-c",        20],
         # Scale down image by 2^scale (default: 1). Scaling down images will improve speed at the cost of accuracy.
         "scale_down"            : ["-s",        0],
         # Misc arguments
+        "verbose"               : ["-v",       True],
         "misc_args"             : ["",          False]
     },
     "fuse_settings"             :
@@ -147,8 +150,8 @@ settings = {
         # load masks from files
         #"load-masks"            : ["--load-masks", "%f-softmask-%n.png:%f-hardmask-%n.png"],
         # Misc arguments
-        "misc_args"             : ["",                          False],
-        "verbose"               : ["--verbose",                 6]
+        "verbose"               : ["--verbose",                 6],
+        "misc_args"             : ["",                          False]
     }
 }
 
@@ -193,7 +196,8 @@ class data:
         options = []
         for key, value in settings["align_settings"].items():
             # special treatment for boolean values
-            if (key == "auto_crop" or key == "opt_img_shift" or key == "opt_fov" or key == "use_gpu" or key == "misc_args"):
+            if (key == "auto_crop" or key == "opt_img_shift" or key == "opt_fov" or key == "distortion" or
+                key == "use_gpu" or key == "misc_args" or key == "verbose"):
                 if value[1]:
                     options.append(value[0])
             else:
@@ -231,6 +235,14 @@ def create_thumbnail(path, size):
         im.savev(outfile, "jpeg", [], [])
     except IOError:
         print(_("Generating %s thumbnail failed.") % path)
+
+    # copy exif info over (helpful for align_image_stack)
+    try:
+        exif_copy = subprocess.Popen(["exiftool", "-tagsFromFile", path, "-overwrite_original", outfile])
+        exif_copy.wait()
+    except:
+        print(_("Error copying EXIF data for %s thumbnail.") % path)
+
     return outfile
 
 
@@ -385,6 +397,9 @@ class Interface:
         self.checkbutton_a5_crop = self.gui.get_object("checkbutton_a5_crop")
         self.checkbutton_a5_shift = self.gui.get_object("checkbutton_a5_shift")
         self.checkbutton_a5_field = self.gui.get_object("checkbutton_a5_field")
+
+        self.spinbutton_align_corr   = self.gui.get_object("spinbutton_align_corr")
+        self.spinbutton_align_cpoint = self.gui.get_object("spinbutton_align_cpoint")
         self.buttonabout = self.gui.get_object("buttonabout")
 
         self.entryedit_field = self.gui.get_object("entry_editor")
@@ -459,6 +474,12 @@ class Interface:
             self.spinbuttonexopt.set_value(self.conf.getfloat('fusion', 'exposure-optimum'))
         if self.conf.has_option('fusion', 'exposure-width'):
             self.spinbuttonexwidth.set_value(self.conf.getfloat('fusion', 'exposure-width'))
+
+        if self.conf.has_option('fusion', 'align-corr'):
+            self.spinbutton_align_corr.set_value(self.conf.getfloat('fusion', 'align-corr'))
+        if self.conf.has_option('fusion', 'align-cpoint'):
+            self.spinbutton_align_cpoint.set_value(self.conf.getint('fusion', 'align-cpoint'))
+
 
         # read expert options from config
         if self.conf.has_option('expert', 'pyramid-levels-enabled'):
@@ -647,6 +668,8 @@ class Interface:
             settings["align_settings"]["auto_crop"][1]     = self.checkbutton_a5_crop.get_active()
             settings["align_settings"]["opt_img_shift"][1] = self.checkbutton_a5_shift.get_active()
             settings["align_settings"]["opt_fov"][1]       = self.checkbutton_a5_field.get_active()
+            settings["align_settings"]["corr_thres"][1]    = float('%.1f'%self.spinbutton_align_corr.get_value())
+            settings["align_settings"]["num_ctrl_pnt"][1]  = int(self.spinbutton_align_cpoint.get_value())
 
     def update_enfuse_options(self):
         settings["fuse_settings"]["exposure-weight"][1]     = self.spinbuttonexp.get_value()
@@ -832,6 +855,8 @@ class Interface:
         conf.set('fusion', 'saturation-weight', str(float('%.1f'%self.spinbuttonsat.get_value())))
         conf.set('fusion', 'exposure-optimum', str(float('%.1f'%self.spinbuttonexopt.get_value())))
         conf.set('fusion', 'exposure-width', str(float('%.1f'%self.spinbuttonexwidth.get_value())))
+        conf.set('fusion', 'align-corr', str(float('%.2f'%self.spinbutton_align_corr.get_value())))
+        conf.set('fusion', 'align-cpoint', str(int(self.spinbutton_align_cpoint.get_value())))
 
         conf.add_section('expert')
         conf.set('expert', 'pyramid-levels-enabled', str(self.check_pyramidelevel.get_active()))

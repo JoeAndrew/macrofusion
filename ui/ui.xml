@@ -99,8 +99,21 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="adjustment25">
+    <property name="upper">1</property>
+    <property name="value">0.9</property>
+    <property name="step_increment">0.1</property>
+    <property name="page_increment">0.1</property>
+  </object>
   <object class="GtkAdjustment" id="adjustment26">
     <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment27">
+    <property name="lower">1</property>
+    <property name="upper">100</property>
+    <property name="value">20</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
@@ -732,6 +745,8 @@ standard deviation of Gaussian weighting
                                   <object class="GtkLabel" id="label6">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="margin_left">3</property>
+                                    <property name="margin_right">3</property>
                                     <property name="label" translatable="yes">&lt;b&gt;Fusion parameters&lt;/b&gt;</property>
                                     <property name="use_markup">True</property>
                                   </object>
@@ -844,6 +859,98 @@ Useful for aligning focus stacks with slightly different magnification.
                                             <property name="position">3</property>
                                           </packing>
                                         </child>
+                                        <child>
+                                          <object class="GtkBox">
+                                            <property name="width_request">300</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="halign">start</property>
+                                            <property name="margin_top">2</property>
+                                            <property name="margin_bottom">2</property>
+                                            <child>
+                                              <object class="GtkLabel">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="margin_right">10</property>
+                                                <property name="label" translatable="yes">Correlation threshold: </property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkSpinButton" id="spinbutton_align_corr">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="tooltip_text" translatable="yes">Correlation threshold for identifying control points (default: 0.9)</property>
+                                                <property name="max_length">5</property>
+                                                <property name="width_chars">5</property>
+                                                <property name="adjustment">adjustment25</property>
+                                                <property name="digits">2</property>
+                                                <property name="value">2.6</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="pack_type">end</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">4</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkBox">
+                                            <property name="width_request">300</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="halign">start</property>
+                                            <property name="margin_top">2</property>
+                                            <property name="margin_bottom">2</property>
+                                            <child>
+                                              <object class="GtkLabel">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="margin_right">59</property>
+                                                <property name="label" translatable="yes">Control points: </property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkSpinButton" id="spinbutton_align_cpoint">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="tooltip_text" translatable="yes">Number of control points (per grid) to create between adjacent images (default: 8)</property>
+                                                <property name="max_length">4</property>
+                                                <property name="width_chars">4</property>
+                                                <property name="input_purpose">number</property>
+                                                <property name="adjustment">adjustment27</property>
+                                                <property name="value">20</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="pack_type">end</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">5</property>
+                                          </packing>
+                                        </child>
                                       </object>
                                     </child>
                                   </object>
@@ -852,13 +959,15 @@ Useful for aligning focus stacks with slightly different magnification.
                                   <object class="GtkLabel" id="label_a5">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="margin_left">3</property>
+                                    <property name="margin_right">3</property>
                                     <property name="label" translatable="yes">&lt;b&gt;Align images&lt;/b&gt;</property>
                                     <property name="use_markup">True</property>
                                   </object>
                                 </child>
                               </object>
                               <packing>
-                                <property name="expand">False</property>
+                                <property name="expand">True</property>
                                 <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
@@ -1439,6 +1548,8 @@ or contrast weighing, where OPERATOR is one of
                               <object class="GtkLabel" id="label15">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="margin_left">3</property>
+                                <property name="margin_right">3</property>
                                 <property name="label" translatable="yes">&lt;b&gt;Expert Options&lt;/b&gt;</property>
                                 <property name="use_markup">True</property>
                               </object>
@@ -2064,6 +2175,8 @@ Enter name of graphics editor to edit images
                                   <object class="GtkLabel" id="label28">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="margin_left">3</property>
+                                    <property name="margin_right">3</property>
                                     <property name="label" translatable="yes">&lt;b&gt;Software Options&lt;/b&gt;</property>
                                     <property name="use_markup">True</property>
                                   </object>
@@ -2110,7 +2223,8 @@ Enter name of graphics editor to edit images
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="margin_right">5</property>
+                            <property name="margin_left">3</property>
+                            <property name="margin_right">10</property>
                             <property name="use_underline">True</property>
                             <signal name="pressed" handler="on_buttonbeforeafter_pressed" swapped="no"/>
                             <signal name="released" handler="on_buttonbeforeafter_released" swapped="no"/>
