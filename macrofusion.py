@@ -12,6 +12,7 @@ try:
 
     import os, sys
     import os.path
+    import fcntl
     import subprocess
     import shutil
     import time
@@ -34,8 +35,9 @@ try:
     require_version('GExiv2', '0.10')
     from gi.repository import Gdk, Gtk, GObject, GdkPixbuf, GExiv2
 
-except:
+except Exception as e:
     print('An error occured. Python or one of its sub modules is absent...\nIt would be wise to check your python installation.')
+    print('Error: ' + str(e))
     sys.exit(1)
 
 try:
@@ -99,17 +101,25 @@ settings = {
         # Useful for aligning focus stacks with slightly different magnification.
         "opt_fov"               : ["-m",        True],
         # Use GPU for remapping.
-        "use_gpu"               : ["--gpu",     True],
+        "use_gpu"               : ["--gpu",     False],
         # Try to load distortion information from lens database
         "distortion"            : ["--distortion", True],
+        # Use the image order as given on the command line.  (By default images will be sorted by exposure values.)
+        "use_given_order"       : ["--use-given-order", True],
         # Correlation threshold for identifying control points (default: 0.9).
-        "corr_thres"            : ["--corr",    0.6],
+        "corr_thres"            : ["--corr",    0.90],
         # Number of control points (per grid, see option -g) to create between adjacent images (default: 8).
-        "num_ctrl_pnt"          : ["-c",        20],
+        "num_ctrl_pnt"          : ["-c",        30],
+        # Remove all control points with an error higher than num pixels (default: 3)
+        "error_thres"           : ["-t",        1],
         # Scale down image by 2^scale (default: 1). Scaling down images will improve speed at the cost of accuracy.
         "scale_down"            : ["-s",        0],
+        # Break image into a rectangular grid (gsize x gsize) and attempt to find num control points in each
+        #section (default: 5 [5x5 grid])
+        "grid_size"             : ["-g",        5],
         # Misc arguments
         "verbose"               : ["-v",       True],
+        #"verbose_more"          : ["-v",       True],
         "misc_args"             : ["",          False]
     },
     "fuse_settings"             :
@@ -117,24 +127,24 @@ settings = {
         # default compression setting (for JPG/TIFF)
         "compression"           : ["--compression",             "90"],
         # weight given to well-exposed pixels
-        "exposure-weight"       : ["--exposure-weight",         1.0],
+        "exposure-weight"       : ["--exposure-weight",         0.0],
         # weight given to highly-saturated pixels
-        "saturation-weight"     : ["--saturation-weight",       0.2],
+        "saturation-weight"     : ["--saturation-weight",       0.0],
         # weight given to pixels in high-contrast neighborhoods
-        "contrast-weight"       : ["--contrast-weight",         0.0],
+        "contrast-weight"       : ["--contrast-weight",         1.0],
         # mean of Gaussian weighting function
-        "exposure-optimum"      : ["--exposure-optimum",        0.5],
+        "exposure-optimum"      : ["--exposure-optimum",        0.0],
         # standard deviation of Gaussian weighting function
-        "exposure-width"        : ["--exposure-width",          0.2],
+        "exposure-width"        : ["--exposure-width",          0.0],
         # limit number of blending LEVELS to use (1 to 29)
         "levels"                : ["--levels",                  29],
         # average over all masks; this is the default
-        "soft-mask"             : ["--soft-mask",               True],
+        "soft-mask"             : ["--soft-mask",               False],
         # force hard blend masks and no averaging on finest scale
-        "hard-mask"             : ["--hard-mask",               False],
+        "hard-mask"             : ["--hard-mask",               True],
         # apply gray-scale PROJECTOR in exposure or contrast weighing, where PROJECTOR is one of
         # 0:"anti-value",  1:"average",  2:"l-star",  3:"lightness",  4:"luminance",  5:"pl-star",  6:"value"
-        "gray-projector"        : ["--gray-projector",          1],
+        "gray-projector"        : ["--gray-projector",          2],
         # set window SIZE for local-contrast analysis
         "contrast-window-size"  : ["--contrast-window-size",    5],
         # minimum CURVATURE for an edge to qualify; append "%" for relative values
@@ -197,7 +207,7 @@ class data:
         for key, value in settings["align_settings"].items():
             # special treatment for boolean values
             if (key == "auto_crop" or key == "opt_img_shift" or key == "opt_fov" or key == "distortion" or
-                key == "use_gpu" or key == "misc_args" or key == "verbose"):
+                key == "use_given_order" or key == "use_gpu" or key == "misc_args" or key == "verbose" or key == "verbose_more"):
                 if value[1]:
                     options.append(value[0])
             else:
@@ -238,6 +248,7 @@ def create_thumbnail(path, size):
 
     # copy exif info over (helpful for align_image_stack)
     try:
+        Gui.textbuffer_console.insert_at_cursor(_("Copying EXIF data for %s thumbnails ... ") % path)
         exif_copy = subprocess.Popen(["exiftool", "-tagsFromFile", path, "-overwrite_original", outfile])
         exif_copy.wait()
     except:
@@ -279,54 +290,37 @@ class Interface:
         self.buttondelfile = self.gui.get_object("buttondelfile")
         self.statusbar = self.gui.get_object("status1")
         self.statusbar.push(1,(_("CPU Cores: %s") % settings["cpus"]))
+        self.textview_console = self.gui.get_object("textview_console_output")
+        self.textbuffer_console = self.gui.get_object("textbuffer_console")
+        self.scrollwindow_console = self.gui.get_object("scrollwindow_console")
 
         self.hscaleexp = self.gui.get_object("hscaleexp")
-        self.ajus_exp = Gtk.Adjustment(value=1, lower=0, upper=1, step_incr=0.1, page_incr=0.1, page_size=0)
-        self.hscaleexp.set_adjustment(self.ajus_exp)
         self.spinbuttonexp = self.gui.get_object("spinbuttonexp")
         self.spinbuttonexp.set_digits(1)
         self.spinbuttonexp.set_value(settings["fuse_settings"]["exposure-weight"][1])
-        self.spinbuttonexp.set_adjustment(self.ajus_exp)
 
         self.hscalecont = self.gui.get_object("hscalecont")
-        self.ajus_cont = Gtk.Adjustment(value=0, lower=0, upper=1, step_incr=0.1, page_incr=0.1, page_size=0)
-        self.hscalecont.set_adjustment(self.ajus_cont)
         self.spinbuttoncont = self.gui.get_object("spinbuttoncont")
         self.spinbuttoncont.set_digits(1)
         self.spinbuttoncont.set_value(settings["fuse_settings"]["contrast-weight"][1])
-        self.spinbuttoncont.set_adjustment(self.ajus_cont)
 
         self.hscalesat = self.gui.get_object("hscalesat")
-        self.ajus_sat = Gtk.Adjustment(value=0.2, lower=0, upper=1, step_incr=0.1, page_incr=0.1, page_size=0)
-        self.hscalesat.set_adjustment(self.ajus_sat)
         self.spinbuttonsat = self.gui.get_object("spinbuttonsat")
         self.spinbuttonsat.set_digits(1)
         self.spinbuttonsat.set_value(settings["fuse_settings"]["saturation-weight"][1])
-        self.spinbuttonsat.set_adjustment(self.ajus_sat)
 
         self.hscalemu = self.gui.get_object("hscalemu")
-        self.ajus_mu = Gtk.Adjustment(value=0.5, lower=0, upper=1, step_incr=0.01, page_incr=0.1, page_size=0)
-        self.hscalemu.set_adjustment(self.ajus_mu)
         self.spinbuttonexopt = self.gui.get_object("spinbuttonexopt")
         self.spinbuttonexopt.set_digits(2)
         self.spinbuttonexopt.set_value(settings["fuse_settings"]["exposure-optimum"][1])
-        self.spinbuttonexopt.set_adjustment(self.ajus_mu)
 
         self.hscalesigma = self.gui.get_object("hscalesigma")
-        self.ajus_sigma = Gtk.Adjustment(value=0.2, lower=0, upper=1, step_incr=0.01, page_incr=0.1, page_size=0)
-        self.hscalesigma.set_adjustment(self.ajus_sigma)
         self.spinbuttonexwidth = self.gui.get_object("spinbuttonexwidth")
         self.spinbuttonexwidth.set_digits(2)
         self.spinbuttonexwidth.set_value(settings["fuse_settings"]["exposure-width"][1])
-        self.spinbuttonexwidth.set_adjustment(self.ajus_sigma)
 
         self.spinbuttonlargeurprev = self.gui.get_object("spinbuttonlargeurprev")
-        self.ajus_largeup = Gtk.Adjustment(value=640, lower=128, upper=1280, step_incr=1, page_incr=1, page_size=0)
-        self.spinbuttonlargeurprev.set_adjustment(self.ajus_largeup)
-
         self.spinbuttonhauteurprev = self.gui.get_object("spinbuttonhauteurprev")
-        self.ajus_hauteup = Gtk.Adjustment(value=640, lower=128, upper=1280, step_incr=1, page_incr=1, page_size=0)
-        self.spinbuttonhauteurprev.set_adjustment(self.ajus_hauteup)
 
         self.buttonpreview = self.gui.get_object("buttonpreview")
         self.checkbuttontiff = self.gui.get_object("checkbuttontiff")
@@ -398,8 +392,11 @@ class Interface:
         self.checkbutton_a5_shift = self.gui.get_object("checkbutton_a5_shift")
         self.checkbutton_a5_field = self.gui.get_object("checkbutton_a5_field")
 
-        self.spinbutton_align_corr   = self.gui.get_object("spinbutton_align_corr")
-        self.spinbutton_align_cpoint = self.gui.get_object("spinbutton_align_cpoint")
+        self.spinbutton_align_corr      = self.gui.get_object("spinbutton_align_corr")
+        self.spinbutton_align_cpoint    = self.gui.get_object("spinbutton_align_cpoint")
+        self.spinbutton_align_threshold = self.gui.get_object("spinbutton_align_threshold")
+        self.spinbutton_align_grid_size = self.gui.get_object("spinbutton_align_grid_size")
+        self.spinbutton_align_scale     = self.gui.get_object("spinbutton_align_scale")
         self.buttonabout = self.gui.get_object("buttonabout")
 
         self.entryedit_field = self.gui.get_object("entry_editor")
@@ -413,11 +410,6 @@ class Interface:
         if not data.check_install('align_image_stack'):
             self.checkbutton_a5_align.set_sensitive(False)
             self.messageinthebottle(_("Hugin tools (align_image_stack) are missing !\n\n Cannot auto align images."))
-
-        self.checkbutton_a5_crop.set_sensitive(False)
-        self.checkbutton_a5_field.set_sensitive(False)
-        self.checkbutton_a5_shift.set_sensitive(False)
-        self.checkbuttonalignfiles.set_sensitive(False)
 
         # update gui according to settings
         self.checkbutton_a5_crop.set_active(settings["align_settings"]["auto_crop"][1])
@@ -479,6 +471,12 @@ class Interface:
             self.spinbutton_align_corr.set_value(self.conf.getfloat('fusion', 'align-corr'))
         if self.conf.has_option('fusion', 'align-cpoint'):
             self.spinbutton_align_cpoint.set_value(self.conf.getint('fusion', 'align-cpoint'))
+        if self.conf.has_option('fusion', 'align-threshold'):
+            self.spinbutton_align_threshold.set_value(self.conf.getint('fusion', 'align-threshold'))
+        if self.conf.has_option('fusion', 'align-grid-size'):
+            self.spinbutton_align_grid_size.set_value(self.conf.getint('fusion', 'align-grid-size'))
+        if self.conf.has_option('fusion', 'align-scale'):
+            self.spinbutton_align_scale.set_value(self.conf.getint('fusion', 'align-scale'))
 
 
         # read expert options from config
@@ -518,6 +516,8 @@ class Interface:
             self.check_desatmeth.set_active(self.conf.getboolean('expert', 'override-gray-projector'))
         if self.conf.has_option('expert', 'gray-projector'):
             self.combobox_desatmet.set_active(self.conf.getint('expert', 'gray-projector'))
+        else:
+            self.combobox_desatmet.set_active(2)    # default to L-star, best for stack-focusing
 
 
         #On relie les signaux (cliques sur boutons, cochage des cases, ...) aux fonctions appropriées
@@ -668,8 +668,11 @@ class Interface:
             settings["align_settings"]["auto_crop"][1]     = self.checkbutton_a5_crop.get_active()
             settings["align_settings"]["opt_img_shift"][1] = self.checkbutton_a5_shift.get_active()
             settings["align_settings"]["opt_fov"][1]       = self.checkbutton_a5_field.get_active()
-            settings["align_settings"]["corr_thres"][1]    = float('%.1f'%self.spinbutton_align_corr.get_value())
+            settings["align_settings"]["corr_thres"][1]    = float('%.2f'%self.spinbutton_align_corr.get_value())
             settings["align_settings"]["num_ctrl_pnt"][1]  = int(self.spinbutton_align_cpoint.get_value())
+            settings["align_settings"]["error_thres"][1]   = int(self.spinbutton_align_threshold.get_value())
+            settings["align_settings"]["grid_size"][1]     = int(self.spinbutton_align_grid_size.get_value())
+            settings["align_settings"]["scale_down"][1]    = int(self.spinbutton_align_scale.get_value())
 
     def update_enfuse_options(self):
         settings["fuse_settings"]["exposure-weight"][1]     = self.spinbuttonexp.get_value()
@@ -857,6 +860,9 @@ class Interface:
         conf.set('fusion', 'exposure-width', str(float('%.1f'%self.spinbuttonexwidth.get_value())))
         conf.set('fusion', 'align-corr', str(float('%.2f'%self.spinbutton_align_corr.get_value())))
         conf.set('fusion', 'align-cpoint', str(int(self.spinbutton_align_cpoint.get_value())))
+        conf.set('fusion', 'align-threshold', str(int(self.spinbutton_align_threshold.get_value())))
+        conf.set('fusion', 'align-grid-size', str(int(self.spinbutton_align_grid_size.get_value())))
+        conf.set('fusion', 'align-scale', str(int(self.spinbutton_align_scale.get_value())))
 
         conf.add_section('expert')
         conf.set('expert', 'pyramid-levels-enabled', str(self.check_pyramidelevel.get_active()))
@@ -996,6 +1002,7 @@ class SaveFiles_Dialog:
         except AttributeError:
             return ""
 
+
 #####################################################################
 #########Thread pour la prévisualisation#############################
 #####################################################################
@@ -1024,16 +1031,35 @@ class Thread_Preview(threading.Thread):
         if Gui.checkbutton_a5_align.get_active():
             command = ["align_image_stack", "-a", os.path.join(settings["preview_folder"], "test")] + data.get_align_options() + images_a_align
             print(command)
-            Gui.statusbar.push(15, _(":: Align photos..."))
-            preview_process = subprocess.Popen(command, stdout=subprocess.PIPE)
-            preview_process.wait()
+            Gui.statusbar.push(15, _(":: Aligning photos ..."))
+            align_process = subprocess.Popen(command, stdout=subprocess.PIPE)
+            unblock_fd(align_process.stdout)
+            iowatch_id = GObject.io_add_watch(align_process.stdout, GObject.IO_IN, self.console_buffer_update)
+            align_process.wait();
+            GObject.source_remove(iowatch_id)
             Gui.statusbar.pop(15)
-        Gui.statusbar.push(15, _(":: Fusing photos..."))
+
+        Gui.statusbar.push(15, _(":: Fusing photos ..."))
+        Gui.textbuffer_console.insert_at_cursor("============ FUSING PHOTOS ===========\n")
         command = [settings["enfuser"], "-o", os.path.join(settings["preview_folder"], "preview.tif")] + data.get_enfuse_options() + images_a_fusionner
         print(command)
-        preview_process = subprocess.Popen(command, stdout=subprocess.PIPE)
+        preview_process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        unblock_fd(preview_process.stderr)
+        iowatch_err_id = GObject.io_add_watch(preview_process.stderr, GObject.IO_IN, self.console_buffer_update)
         preview_process.wait()
+        GObject.source_remove(iowatch_err_id)
         Gui.statusbar.pop(15)
+
+    def console_buffer_update(self, stream, condition):
+        if condition == GObject.IO_IN:
+           Gui.textbuffer_console.insert_at_cursor(stream.read().decode("utf-8"))
+
+           # scroll to the bottom
+           adj = Gui.scrollwindow_console.get_vadjustment()
+           adj.set_value(adj.get_upper() - adj.get_page_size())
+           return True
+        else:
+           return False
 
 
 #######################################################################
@@ -1041,7 +1067,9 @@ class Thread_Preview(threading.Thread):
 #######################################################################
 
 class Progress_Fusion:
+
     def __init__(self, name, list, list_aligned, issend):
+        global ProgressGui
 
         #self.progress = Gtk.glade.XML(fname=UI + "progress.xml", domain=APP)
         self.progress = Gtk.Builder()
@@ -1054,7 +1082,9 @@ class Progress_Fusion:
         self.dic1 = { "on_stop_button_clicked"  : self.close_progress,
                       "on_dialog1_destroy"      : self.close_progress }
         self.progress.connect_signals(self.dic1)
-        self.info_label.set_text(_('Fusion images...'))
+        self.info_label.set_text(_('Fusing images ...'))
+
+        ProgressGui = self.progress
 
         self.thread_fusion = Thread_Fusion(name, list, list_aligned, issend)  #On prepare le thread qui va faire tout le boulot
         self.thread_fusion.start()                                     #On le lance
@@ -1072,8 +1102,8 @@ class Progress_Fusion:
             return False
 
     def close_progress(self, widget):
+        self.thread_fusion.stop()
         self.progress_win.destroy()
-
 
 
 ##############################################################################
@@ -1090,12 +1120,22 @@ class Thread_Fusion(threading.Thread):
         self.command_fuse  = [settings["enfuser"], "-o", self.name] + data.get_enfuse_options() + self.list_aligned
         self.command_align = ["align_image_stack", '-a', os.path.join(settings["preview_folder"], settings["align_prefix"])] + data.get_align_options() + self.list
 
+        self.align_process = None
+        self.fusion_process = None
+
+        self.textbuffer_console     = ProgressGui.get_object("textbuffer_console")
+        self.scrollwindow_console   = ProgressGui.get_object("scrollwindow_console")
+
 
     def run(self):
         if Gui.checkbutton_a5_align.get_active():
             print(self.command_align)
-            align_process = subprocess.Popen(self.command_align, stdout=subprocess.PIPE)
-            align_process.wait()
+            self.align_process = subprocess.Popen(self.command_align, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            unblock_fd(self.align_process.stdout)
+            iowatch_id = GObject.io_add_watch(self.align_process.stdout, GObject.IO_IN, self.console_buffer_update)
+            self.align_process.wait()
+            GObject.source_remove(iowatch_id)
+            self.align_process = None
 
             if Gui.checkbuttonalignfiles.get_active():
                 # copy aligned files in working folder for further processing by user:
@@ -1121,8 +1161,16 @@ class Thread_Fusion(threading.Thread):
                     count += 1
 
         print(self.command_fuse)
-        fusion_process = subprocess.Popen(self.command_fuse, stdout=subprocess.PIPE)
-        fusion_process.wait()
+        self.fusion_process = subprocess.Popen(self.command_fuse, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+        unblock_fd(self.fusion_process.stderr)
+        unblock_fd(self.fusion_process.stdout)
+        iowatch_err_id = GObject.io_add_watch(self.fusion_process.stderr, GObject.IO_IN, self.console_buffer_update)
+        iowatch_out_id = GObject.io_add_watch(self.fusion_process.stdout, GObject.IO_IN, self.console_buffer_update)
+
+        self.fusion_process.wait()
+        GObject.source_remove(iowatch_err_id)
+        GObject.source_remove(iowatch_out_id)
+        self.fusion_process = None
 
         if Gui.checkbuttonexif.get_active():
             exif_copy = subprocess.Popen(["exiftool", "-tagsFromFile", Gui.list_images[0], "-overwrite_original", Gui.name])
@@ -1130,6 +1178,24 @@ class Thread_Fusion(threading.Thread):
         if len(self.issend) > 0:
             subprocess.Popen([Gui.entryedit_field.get_text(), self.issend], stdout=subprocess.PIPE)
 
+    def stop(self):
+        if not self.align_process == None:
+            self.align_process.terminate()
+        if not self.fusion_process == None:
+            self.fusion_process.terminate()
+
+
+
+    def console_buffer_update(self, stream, condition):
+        if condition == GObject.IO_IN:
+           self.textbuffer_console.insert_at_cursor(stream.read().decode("utf-8"))
+
+           # scroll the bottom
+           adj = self.scrollwindow_console.get_vadjustment()
+           adj.set_value(adj.get_upper() - adj.get_page_size())
+           return True
+        else:
+           return False
 
 ########################################
 #### Classe de la fenêtre a propos  ####
@@ -1158,10 +1224,16 @@ class Apropos_Dialog:
 ####  Initialisation et appel de la classe principale  ####
 ###########################################################
 
+def unblock_fd(stream):
+    fd = stream.fileno()
+    fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+    fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     data = data()
     Gui  = Interface()
+    ProgressGui = None
 
     if (len(sys.argv)>1):
         files = sys.argv[1:]
